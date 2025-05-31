@@ -12,26 +12,32 @@ import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
 
-
 @RestController
 @RequestMapping("/fallback")
 public class FallbackController {
-    
+
     @GetMapping("/{service}")
     public Mono<ResponseEntity<String>> fallbackGet(@PathVariable("service") String serviceName) {
-        return Mono.just(ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("This " + serviceName + " service temporarily unavailable."));
+        return Mono.just(ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body("This " + serviceName + " service temporarily unavailable."));
     }
+
     @PostMapping("/{service}")
     public Mono<ResponseEntity<String>> fallbackPost(@PathVariable("service") String serviceName) {
-        return Mono.just(ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("This " + serviceName + " service temporarily unavailable."));
+        return Mono.just(ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body("This " + serviceName + " service temporarily unavailable."));
     }
+
     @PutMapping("/{service}")
     public Mono<ResponseEntity<String>> fallbackUpdate(@PathVariable("service") String serviceName) {
-        return Mono.just(ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("This " + serviceName + " service temporarily unavailable."));
+        return Mono.just(ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body("This " + serviceName + " service temporarily unavailable."));
     }
+
     @DeleteMapping("/{service}")
     public Mono<ResponseEntity<String>> fallbackMethod(@PathVariable("service") String serviceName) {
-        return Mono.just(ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("This " + serviceName + " service temporarily unavailable."));
+        return Mono.just(ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body("This " + serviceName + " service temporarily unavailable."));
     }
-    
+
 }

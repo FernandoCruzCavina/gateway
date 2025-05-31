@@ -21,17 +21,17 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
-            .authorizeExchange(auth -> auth
-                .pathMatchers("/auth/**").permitAll()
-                .pathMatchers("/actuator/**").permitAll()
-                .pathMatchers("/fallback/**").permitAll()
-                .anyExchange().authenticated())
-            .csrf(csrf -> csrf.disable())
-            .oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(jwt -> jwt
-                    .jwtDecoder(jwtDecoder())
-                )
-            );
+                .authorizeExchange(auth -> auth
+                        .pathMatchers("/auth/**").permitAll()
+                        .pathMatchers("/actuator/**").permitAll()
+                        .pathMatchers("/account/**").permitAll()
+                        .pathMatchers("/payment/**").permitAll()
+                        .pathMatchers("/fallback/**").permitAll()
+                        .anyExchange().authenticated())
+                .csrf(csrf -> csrf.disable())
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(jwt -> jwt
+                                .jwtDecoder(jwtDecoder())));
         return http.build();
     }
 

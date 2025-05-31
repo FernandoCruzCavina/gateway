@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  # instance:
+  #   hostname: localhost
+
+spring:
+  application:
+    name: gateway-api
+  cloud:
+      gateway:
+          routes:
+              - id: auth-service
+                uri: lb://auth-service
+                predicates:
+                  - Path=/auth/**
+                filters:
+                - name: CircuitBreaker
+                  args:
+                    name: authCircuitBreaker
+                    fallbackUri: http://localhost:8080/fallback/auth
+              - id: account-service
+                uri: lb://ACCOUNT-SERVICE
+                predicates:
+                  - Path=/account/**
+                # filters:
+                # - name: CircuitBreaker
+                #   args:
+                #     name: authCircuitBreaker
+                #     fallbackUri: http://localhost:8080/fallback/auth
+              - id: payment-service
+                uri: lb://PAYMENT-SERVICE
+                predicates:
+                  - Path=/payment/**
+
+
+jwt:
+  public:
+    key: classpath:app.pub
