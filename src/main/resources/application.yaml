@@ -19,28 +19,37 @@ spring:
                 predicates:
                   - Path=/auth/**
                 filters:
-                - name: CircuitBreaker
+                - name: fallback
                   args:
-                    name: authCircuitBreaker
+                    name: auth
                     fallbackUri: http://localhost:8080/fallback/auth
+              - id: user-service
+                uri: lb://user-service
+                predicates:
+                  - Path=/user/**
+                filters:
+                - name: fallback
+                  args:
+                    name: user
+                    fallbackUri: http://localhost:8080/fallback/user
               - id: account-service
                 uri: lb://ACCOUNT-SERVICE
                 predicates:
                   - Path=/account/**
                 filters:
-                - name: CircuitBreaker
+                - name: fallback
                   args:
-                    name: authCircuitBreaker
-                    fallbackUri: http://localhost:8080/fallback/auth
+                    name: account
+                    fallbackUri: http://localhost:8080/fallback/account
               - id: payment-service
                 uri: lb://PAYMENT-SERVICE
                 predicates:
                   - Path=/payment/**
                 filters:
-                - name: CircuitBreaker
+                - name: fallback
                   args:
-                    name: authCircuitBreaker
-                    fallbackUri: http://localhost:8080/fallback/auth
+                    name: payment
+                    fallbackUri: http://localhost:8080/fallback/payment
 
 
 jwt:
