@@ -18,6 +18,7 @@ import org.springframework.security.web.server.authorization.AuthorizationContex
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 
@@ -43,7 +44,7 @@ public class SecurityConfig {
                         .pathMatchers("/user/**").permitAll()
                         .pathMatchers("/actuator/**").permitAll()
                         .pathMatchers("/account/**").permitAll()
-                        .pathMatchers("/payment/**").access(new JwtClaimAuthorizationManager("verified", true))
+                        .pathMatchers("/payment/**").permitAll()
                         .pathMatchers("/fallback/**").permitAll()
                         .anyExchange().authenticated())
                 .csrf(csrf -> csrf.disable())
@@ -68,5 +69,10 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
+    }
+
+    @Bean
+    public CorsWebFilter corsWebFilter(CorsConfigurationSource corsConfigurationSource) {
+        return new CorsWebFilter(corsConfigurationSource);
     }
 }
